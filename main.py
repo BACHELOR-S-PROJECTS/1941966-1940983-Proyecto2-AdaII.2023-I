@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import scrolledtext
 import subprocess
 import tkinter as tk
+import re
 
 # Create a new Tkinter window
 window = tk.Tk()
@@ -32,7 +33,7 @@ def execute_mzn_file():
     todoDeConsola = ""
     i = 0
     while True:
-        i = i + 25
+        i = i + 20
         salida = proceso.stdout.readline()
         if (i == 1000):
             codigo_salida = proceso.poll()
@@ -42,8 +43,11 @@ def execute_mzn_file():
         if salida == b'' and proceso.poll() is not None:
             break
         if salida:
-            print(salida.strip().decode())  # Muestra la salida
-            todoDeConsola = todoDeConsola + salida.strip().decode() +"\n"
+            try:
+                print(salida)  # Muestra la salida
+                todoDeConsola = todoDeConsola + salida.strip().decode() +"\n"
+            except:
+                pass
                        
     #for i in salida.strip().decode():
     #yield "a"
@@ -68,10 +72,19 @@ def hallarSol():
         file_dzn = file_dzn + "|" + str(list_of_strings[i].replace(" ",", ")) + "\n"
     file_dzn = file_dzn[0:len(file_dzn)-1] + "];"
 
-    #
+    def reemplazar_espacios(string):
+        # Utilizamos expresiones regulares para encontrar los espacios entre números
+        patron = r'(\d+)\s+(\d+)'
+        reemplazo = r'\1,\2'
+    
+        while re.search(patron, string):
+            string = re.sub(patron, reemplazo, string)
+
+        return string
 
     f = open("params.dzn", "w")
-    f.write(file_dzn)
+    print("Esto:",reemplazar_espacios(file_dzn))
+    f.write(reemplazar_espacios(file_dzn))
     f.close()
 
     #sol = execute_mzn_file("model.mzn","params.dzn",10)
