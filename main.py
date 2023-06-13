@@ -64,6 +64,11 @@ def execute_mzn_file():
 
 
 def hallarSol():
+    global inputtxt
+    inputtxt.config(state='normal')
+    inputtxt.delete("1.0", tk.END)
+    inputtxt.insert(tk.END,"PROCESANDO...")
+    inputtxt.update()
     entradaUsuario = text_area.get("1.0", tk.END)
 
     list_of_strings = entradaUsuario.split("\n")
