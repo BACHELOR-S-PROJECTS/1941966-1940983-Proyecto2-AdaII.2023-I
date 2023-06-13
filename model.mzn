@@ -59,10 +59,11 @@ constraint forall(i in 2..2*(n-1), j in 1..n) (
 );*/
 
 constraint sum(j in 1..n) (
-              sum(i in 1..2*(n-1)-Max)(
-                      forall(k in i..(i + Max)) (Cal[k, j] > 0)
-              ) == 1
-          ) >= 0;
+                 exists(i in 1..2*(n-1)-Max) (
+                      sum(k in i..(i + Max)) (bool2int(Cal[k, j] < 0)) >= Max - 1 
+                 )
+          ) >= n/2;
+
 
 constraint forall(i in 1..2*(n-1), j in 1..n) (
   exists(k in 1..n) (

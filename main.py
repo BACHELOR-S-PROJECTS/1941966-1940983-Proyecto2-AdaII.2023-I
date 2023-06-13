@@ -34,7 +34,7 @@ def hallarSol():
     f.write(file_dzn)
     f.close()
 
-    sol = execute_mzn_file("model.mzn","params.dzn")
+    sol = execute_mzn_file("model.mzn","params.dzn",10)
     solucion = sol
 
     inputtxt.config(state='normal')
