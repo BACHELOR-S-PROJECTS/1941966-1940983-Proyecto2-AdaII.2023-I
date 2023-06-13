@@ -24,9 +24,12 @@ def hallarSol():
 
     list_of_strings = entradaUsuario.split("\n")
     file_dzn = "n = " + list_of_strings[0] + ";\n" + "Min = " + list_of_strings[1] + ";\n" + "Max = " + list_of_strings[2] + ";\nD = \n["
-    for i in range(3,len(list_of_strings)-1):
+    for i in range(3,3+int(list_of_strings[0])+1):
         file_dzn = file_dzn + "|" + str(list_of_strings[i].replace(" ",", ")) + "\n"
     file_dzn = file_dzn[0:len(file_dzn)-1] + "];"
+
+    #
+
     f = open("params.dzn", "w")
     f.write(file_dzn)
     f.close()
