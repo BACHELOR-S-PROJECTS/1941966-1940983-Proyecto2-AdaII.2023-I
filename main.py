@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import scrolledtext
-from execute_mzn import execute_mzn_file
+import subprocess
+import tkinter as tk
 
 # Create a new Tkinter window
 window = tk.Tk()
@@ -19,6 +20,45 @@ frame.pack()
 
 PAD_X = 15
 
+
+
+text_area = scrolledtext.ScrolledText(frame, wrap=tk.WORD, width=screen_width // 20, height=screen_height // 50, font=("Times New Roman", 15))
+text_area.pack(side=tk.LEFT, padx=PAD_X, ipadx=screen_width // 15, ipady=10)
+def execute_mzn_file():
+    proceso = subprocess.Popen("minizinc -a model.mzn -d params.dzn", stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
+
+    # Lee la salida línea por línea mientras se ejecuta el comando
+    salida = None
+    todoDeConsola = ""
+    i = 0
+    while True:
+        i = i + 25
+        salida = proceso.stdout.readline()
+        if (i == 1000):
+            codigo_salida = proceso.poll()
+            break
+            
+
+        if salida == b'' and proceso.poll() is not None:
+            break
+        if salida:
+            print(salida.strip().decode())  # Muestra la salida
+            todoDeConsola = todoDeConsola + salida.strip().decode() +"\n"
+                       
+    #for i in salida.strip().decode():
+    #yield "a"
+    global inputtxt
+    inputtxt.config(state='normal')
+    inputtxt.delete("1.0", tk.END)
+    inputtxt.insert(tk.END,todoDeConsola+"\n")
+    inputtxt.update()
+    #inputtxt.insert(tk.END, solucion)
+    inputtxt.config(state='disabled')               
+    # Espera a que el comando termine y obtén el código de salida
+    codigo_salida = proceso.poll()
+    return codigo_salida
+
+
 def hallarSol():
     entradaUsuario = text_area.get("1.0", tk.END)
 
@@ -34,16 +74,14 @@ def hallarSol():
     f.write(file_dzn)
     f.close()
 
-    sol = execute_mzn_file("model.mzn","params.dzn",10)
-    solucion = sol
+    #sol = execute_mzn_file("model.mzn","params.dzn",10)
 
-    inputtxt.config(state='normal')
-    inputtxt.delete("1.0", tk.END)
-    inputtxt.insert(tk.END, solucion)
-    inputtxt.config(state='disabled')
+    solucion = execute_mzn_file()
 
-text_area = scrolledtext.ScrolledText(frame, wrap=tk.WORD, width=screen_width // 20, height=screen_height // 50, font=("Times New Roman", 15))
-text_area.pack(side=tk.LEFT, padx=PAD_X, ipadx=screen_width // 15, ipady=10)
+    # inputtxt.config(state='normal')
+    # inputtxt.delete("1.0", tk.END)
+    # inputtxt.insert(tk.END, solucion)
+    # inputtxt.config(state='disabled')
 
 # Crear un botón para obtener el texto
 button = tk.Button(frame, text="HALLAR SOLUCION", command=hallarSol)
@@ -53,7 +91,13 @@ button.pack(side=tk.LEFT, padx=PAD_X, ipadx=screen_width // 15, ipady=10)
 label = tk.Label(window, text="SOLUCION ENCONTRADA:", bg="grey", fg="white")
 label.pack(side=tk.TOP, padx=PAD_X, ipadx=11, ipady=11)
 
-inputtxt = tk.Text(window, height=10, width=25, bg="light yellow", state='disabled')
+inputtxt = scrolledtext.ScrolledText(window, wrap=tk.WORD, width=screen_width // 20, height=screen_height // 50, font=("Times New Roman", 15))
 inputtxt.pack(side=tk.TOP, padx=PAD_X, ipadx=screen_width, ipady=10)
 
+
+
+    
 window.mainloop()
+
+
+
