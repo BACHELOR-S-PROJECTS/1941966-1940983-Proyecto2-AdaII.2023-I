@@ -1,17 +1,13 @@
 include "alldifferent.mzn";
-int: n = 4;  % Número de equipos
-int: Min = 1;  % Tamaño mínimo de las giras y permanencias
-int: Max = 4;  % Tamaño máximo de las giras y permanencias
+int: n;  % Número de equipos
+int: Min;  % Tamaño mínimo de las giras y permanencias
+int: Max;  % Tamaño máximo de las giras y permanencias
 
 % Variables de decisión
 array[1..2*(n-1), 1..n] of var -n..n: Cal;  % Matriz Calendario
 
 % Matriz de distancias
-array[1..n, 1..n] of int: D = 
-  [| 0, 186, 91, 92 
-   | 186, 0, 95, 218 
-   | 91, 95, 0, 123 
-   | 92, 218, 123, 0 |];
+array[1..n, 1..n] of int: D;
 
 
 

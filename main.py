@@ -22,16 +22,21 @@ PAD_X = 15
 def hallarSol():
     entradaUsuario = text_area.get("1.0", tk.END)
 
+    list_of_strings = entradaUsuario.split("\n")
+    file_dzn = "n = " + list_of_strings[0] + ";\n" + "Min = " + list_of_strings[1] + ";\n" + "Max = " + list_of_strings[2] + ";\nD = \n["
+    for i in range(3,len(list_of_strings)-1):
+        file_dzn = file_dzn + "|" + str(list_of_strings[i].replace(" ",", ")) + "\n"
+    file_dzn = file_dzn[0:len(file_dzn)-1] + "];"
     f = open("params.dzn", "w")
-    f.write(entradaUsuario)
+    f.write(file_dzn)
     f.close()
 
-    execute_mzn_file("model.mzn","params.dzn")
-    solucion = ""
+    sol = execute_mzn_file("model.mzn","params.dzn")
+    solucion = sol
 
     inputtxt.config(state='normal')
     inputtxt.delete("1.0", tk.END)
-    inputtxt.insert(tk.END, entradaUsuario)
+    inputtxt.insert(tk.END, solucion)
     inputtxt.config(state='disabled')
 
 text_area = scrolledtext.ScrolledText(frame, wrap=tk.WORD, width=screen_width // 20, height=screen_height // 50, font=("Times New Roman", 15))
