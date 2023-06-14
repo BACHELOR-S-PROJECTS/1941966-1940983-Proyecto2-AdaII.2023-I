@@ -3,7 +3,7 @@ Los archivos entregados son:
 archivos entregados y las instrucciones para
 ejecutar la aplicacion.
 2. Archivo Informe.pdf acorde a la Seccion 3.2.
-Link del video:
+Link del video: https://youtu.be/DOiKXtSh6yY
 3. Archivo CalDep.mzn con la implementacion
 del modelo
 4. Directorio DatosCalDep con los datos con
