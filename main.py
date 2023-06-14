@@ -26,7 +26,7 @@ PAD_X = 15
 text_area = scrolledtext.ScrolledText(frame, wrap=tk.WORD, width=screen_width // 20, height=screen_height // 50, font=("Times New Roman", 15))
 text_area.pack(side=tk.LEFT, padx=PAD_X, ipadx=screen_width // 15, ipady=10)
 def execute_mzn_file():
-    proceso = subprocess.Popen("minizinc -a model.mzn -d params.dzn", stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
+    proceso = subprocess.Popen("minizinc -a CalDep.mzn -d DatosCalDep.dzn", stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
 
     # Lee la salida línea por línea mientras se ejecuta el comando
     salida = None
@@ -87,7 +87,7 @@ def hallarSol():
 
         return string
 
-    f = open("params.dzn", "w")
+    f = open("DatosCalDep.dzn", "w")
     print("Esto:",reemplazar_espacios(file_dzn))
     f.write(reemplazar_espacios(file_dzn))
     f.close()
