@@ -33,7 +33,7 @@ def execute_mzn_file():
     todoDeConsola = ""
     i = 0
     while True:
-        i = i + 20
+        i = i + 10#10
         salida = proceso.stdout.readline()
         if (i == 1000):
             codigo_salida = proceso.poll()
